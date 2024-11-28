@@ -7,10 +7,6 @@ import { AttendanceService } from '../../../../../service/attendance.service';
 import { IAttendanceSummary } from '../../../../../Interface/attendance-summary';
 import { IAttendanceData } from '../../../../../Interface/attendance-data';
 import { Router } from '@angular/router';
-import { data } from 'jquery';
-
-
-
 
 @Component({
   selector: 'app-calendar-view',
@@ -59,9 +55,7 @@ export class CalendarViewComponent implements OnInit {
       this.absent = data.absent;
       this.incompleteShift = data.incompleteShift;
       this.wfh = data.wfh;
-
     });
-    console.log(data)
   }
 
   getStatusData(year: number, month: number) {
