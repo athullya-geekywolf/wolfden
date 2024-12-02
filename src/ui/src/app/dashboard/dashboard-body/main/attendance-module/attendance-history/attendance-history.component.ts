@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DurationFormatPipe } from '../../../../../pipe/duration-format.pipe';
 import { SplitCommaPipe } from '../../../../../pipe/split-comma.pipe';
 
+
 @Component({
   selector: 'app-attendance-history',
   standalone: true,
@@ -70,7 +71,8 @@ status = [
   { id: 5, name: 'Normal Holiday' },
   { id: 6, name: 'WFH' },
   { id: 7, name: 'Leave' },
-  { id: 9, name:'Weekend'}
+  { id: 9, name:'Half Day'},
+  { id: 8, name:'Weekend'}
 ];
 
 fetchHistory(){
