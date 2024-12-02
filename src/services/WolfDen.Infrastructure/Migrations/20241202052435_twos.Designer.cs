@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WolfDen.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WolfDen.Infrastructure.Data;
 namespace WolfDen.Infrastructure.Migrations
 {
     [DbContext(typeof(WolfDenContext))]
-    partial class WolfDenContextModelSnapshot : ModelSnapshot
+    [Migration("20241202052435_twos")]
+    partial class twos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -395,8 +398,6 @@ namespace WolfDen.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("ArrivalTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
                     b.Property<int?>("AttendanceStatusId")
                         .HasColumnType("int");
 
@@ -405,9 +406,6 @@ namespace WolfDen.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("DepartureTime")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<bool?>("EmailSent")
-                        .HasColumnType("bit");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
@@ -435,8 +433,6 @@ namespace WolfDen.Infrastructure.Migrations
                         .HasColumnName("PeriodStart");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.ToTable("DailyAttendence", "wolfden");
 
@@ -477,9 +473,6 @@ namespace WolfDen.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Department", "wolfden");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
@@ -518,9 +511,6 @@ namespace WolfDen.Infrastructure.Migrations
                         .HasColumnName("PeriodStart");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Designation", "wolfden");
 
@@ -702,10 +692,6 @@ namespace WolfDen.Infrastructure.Migrations
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -1342,17 +1328,6 @@ namespace WolfDen.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Device");
-                });
-
-            modelBuilder.Entity("WolfDen.Domain.Entity.DailyAttendence", b =>
-                {
-                    b.HasOne("WolfDen.Domain.Entity.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("WolfDen.Domain.Entity.Employee", b =>
