@@ -5,7 +5,6 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { LeaveManagementService } from '../../../../../service/leave-management.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-
 @Component({
   selector: 'app-add-new-leave-type',
   standalone: true,
@@ -21,7 +20,7 @@ export class AddNewLeaveTypeComponent{
     addNewLeaveType : FormGroup
     constructor() {
       this.addNewLeaveType = this.fb.group<IAddNewLeaveTypeFormcontrol>({
-        typeName: new FormControl(null,Validators.required),
+        typeName: new FormControl(null, Validators.required),
         maxDays: new FormControl(null),
         isHalfDayAllowed: new FormControl(null),
         incrementCount: new FormControl(null),

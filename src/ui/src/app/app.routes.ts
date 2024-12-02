@@ -21,19 +21,12 @@ import { SubordinatesComponent } from './dashboard/dashboard-body/main/attendanc
 import { EditLeaveTypeComponent } from './dashboard/dashboard-body/main/leave-management/edit-leave-type/edit-leave-type.component';
 import { UpdateLeaveBalanceComponent } from './dashboard/dashboard-body/main/leave-management/update-leave-balance/update-leave-balance.component';
 import { ProfileComponent } from './profile/profile.component';
-import { EditRoleComponent } from './edit-role/edit-role.component';
-import { AddNewLeaveTypeComponent } from './dashboard/dashboard-body/main/leave-management/add-new-leave-type/add-new-leave-type.component';
-import { LeaveApplicationComponent } from './dashboard/dashboard-body/main/leave-management/leave-application/leave-application.component';
-import { UpdateLeaveSettingsComponent } from './dashboard/dashboard-body/main/leave-management/update-leave-settings/update-leave-settings.component';
-import { SubordinateLeaveRequestComponent } from './dashboard/dashboard-body/main/leave-management/subordinate-leave-request/subordinate-leave-request.component';
-import { EditLeaveRequestComponent } from './dashboard/dashboard-body/main/leave-management/edit-leave-request/edit-leave-request.component';
-import { AddLeaveByAdminForEmployeesComponent } from './dashboard/dashboard-body/main/leave-management/add-leave-by-admin-for-employees/add-leave-by-admin-for-employees.component';
 import { AttendanceHistoryComponent } from './dashboard/dashboard-body/main/attendance-module/attendance-history/attendance-history.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 
 export const routes: Routes = [
-    {
-        path: 'user',
+{
+        path: 'user', 
         component: UserComponent,
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -43,9 +36,6 @@ export const routes: Routes = [
             {path:'reset-password',component:ResetPasswordComponent}
         ]
     },
-
-
-
     {
         path: 'portal',
         component: DashboardComponent,
@@ -66,7 +56,6 @@ export const routes: Routes = [
             { path: 'edit-leave-type', component: EditLeaveTypeComponent },
             { path: 'update-leave-balance', component: UpdateLeaveBalanceComponent },
             {path:'attendance/attendance-history',component:AttendanceHistoryComponent},
-
             {
                 path: 'company-hierarchy',
                 component: EmployeeHierarchyTreeComponent,
@@ -83,9 +72,9 @@ export const routes: Routes = [
                 canActivate: [authGuard]
             },
             {
-                path: 'attendance/calendar',
-                component: CalendarViewComponent,
-                canActivate: [authGuard]
+                path:'attendance/calendar',
+                component:CalendarViewComponent,
+                
             },
             {
                 path: 'leave-dashboard',
@@ -108,57 +97,11 @@ export const routes: Routes = [
                 component: ProfileComponent,
                 canActivate: [authGuard]
             },
-            {
-                path: 'admin-dashboard',
-                component: AdminDashboardComponent,
-                canActivate: [authGuard]
-
-            },
-            {
-                path: 'employee-role',
-                component: EditRoleComponent,
-                canActivate: [authGuard]
-
-            },
-            {
-
-                path: 'add-new-leave-type',
-                component: AddNewLeaveTypeComponent
-            },
-            {
-                path: 'leave-application',
-                component: LeaveApplicationComponent
-            },
-            {
-                path: 'update-leave-settings',
-                component: UpdateLeaveSettingsComponent
-            },
-            {
-                path: 'subordinate-leave-request',
-                component: SubordinateLeaveRequestComponent
-            },
-            {
-                path: 'edit-leave-request/:leaveRequestId',
-                component: EditLeaveRequestComponent
-            },
-            {
-                path: 'add-leave-by-admin-for-employees',
-                component: AddLeaveByAdminForEmployeesComponent
-            },
-            {
-                path: 'edit-leave-type',
-                component: EditLeaveTypeComponent
-            },
-            {
-                path: 'update-leave-balance',
-                component: UpdateLeaveBalanceComponent
-            }
-
             
         ]
     },
 
-    { path: '', redirectTo: '/portal/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: '/portal/dashboard', pathMatch: 'full' }, 
 
 
 ];
