@@ -33,9 +33,6 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
 
 export const routes: Routes = [
     {
-        path: 'profile',
-        component: ProfileComponent
-    }, {
         path: 'user',
         component: UserComponent,
         children: [
