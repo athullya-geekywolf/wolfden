@@ -6,9 +6,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AttendanceService } from '../../../../../service/attendance.service';
 import { AttendanceHistory } from '../../../../../interface/attendance-history';
+import { WolfDenService } from '../../../../../service/wolf-den.service';
 import { ActivatedRoute } from '@angular/router';
-import { DurationFormatPipe } from "../../../../../pipe/duration-format.pipe";
-import { SplitCommaPipe } from "../../../../../pipe/split-comma.pipe";
+import { DurationFormatPipe } from '../../../../../pipe/duration-format.pipe';
+import { SplitCommaPipe } from '../../../../../pipe/split-comma.pipe';
 
 @Component({
   selector: 'app-attendance-history',
@@ -20,12 +21,15 @@ import { SplitCommaPipe } from "../../../../../pipe/split-comma.pipe";
 export class AttendanceHistoryComponent implements OnInit {
 
   service=inject(AttendanceService);
+  baseService=inject(WolfDenService);
   selectedYear: number;
   selectedMonth!: number;
   selectedStatus: number=0;  
   selectedPageSize: number = 5;   
   selectedPageNumber:number=0;
   attendanceData: any[] = [];
+ 
+  employeeId=this.baseService.userId;
   years: number[] = [];
   pageSizes = [5, 10, 20, 30, 40];
   totalPages!: number;

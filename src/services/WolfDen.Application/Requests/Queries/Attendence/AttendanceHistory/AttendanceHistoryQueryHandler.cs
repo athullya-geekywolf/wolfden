@@ -99,7 +99,10 @@ namespace WolfDen.Application.Requests.Queries.Attendence.AttendanceHistory
                             }
                             else
                             {
-                                statusId = AttendanceStatus.Leave;
+                                if (leaveRequest.HalfDay == true)
+                                    statusId = AttendanceStatus.HalfDay;
+                                else
+                                    statusId = AttendanceStatus.Leave;
                             }
                         }
                         else
