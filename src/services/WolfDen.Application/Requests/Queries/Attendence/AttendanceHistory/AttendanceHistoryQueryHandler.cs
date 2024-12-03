@@ -38,6 +38,12 @@ namespace WolfDen.Application.Requests.Queries.Attendence.AttendanceHistory
 
             List<LeaveType> leaveTypes = await _context.LeaveType.ToListAsync(cancellationToken);
 
+            List<LeaveRequest> leave = leaveRequests
+               .Where(x => x.HalfDay == true)
+               .ToList();
+
+            Dictionary<DateOnly, LeaveRequest> leaveDictionary = leave.ToDictionary(x => x.FromDate);
+
             for (DateOnly currentDate = monthStart; currentDate <= monthEnd; currentDate = currentDate.AddDays(1))
             {
                 AttendanceStatus statusId = AttendanceStatus.Absent;
@@ -57,10 +63,33 @@ namespace WolfDen.Application.Requests.Queries.Attendence.AttendanceHistory
                     continue;
                 }
                 
+                LeaveRequest? halfDay = leaveDictionary.GetValueOrDefault(currentDate);
+
+                if (halfDay is not null)
+                {
+                    minWorkDuration = minWorkDuration / 2;
+                }
+
+                AttendanceStatus statusId = AttendanceStatus.Absent;
+
                 DailyAttendence? attendanceRecord = attendanceRecords.FirstOrDefault(x => x.Date == currentDate);
                 if (attendanceRecord is not null)
                 {
-                    statusId = attendanceRecord.InsideDuration >= minWorkDuration ? AttendanceStatus.Present: AttendanceStatus.IncompleteShift;
+
+                    if (attendanceRecord.InsideDuration >= minWorkDuration)
+                    {
+                        if (halfDay is not null)
+                        {
+                            statusId = AttendanceStatus.HalfDay;
+                        }
+                        else
+                            statusId = AttendanceStatus.Present;
+
+                    }
+                    else
+                    {
+                        statusId = AttendanceStatus.IncompleteShift;
+                    }
                 }
                 else
                 {
@@ -98,10 +127,7 @@ namespace WolfDen.Application.Requests.Queries.Attendence.AttendanceHistory
                                 statusId = AttendanceStatus.WFH;
                             }
                             else
-                            {
-                                if (leaveRequest.HalfDay == true)
-                                    statusId = AttendanceStatus.HalfDay;
-                                else
+                            { 
                                     statusId = AttendanceStatus.Leave;
                             }
                         }
