@@ -60,6 +60,8 @@ builder.Services.AddIdentityCore<User>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<WolfDenContext>();
 builder.Services.Configure<JwtKey>(builder.Configuration.GetSection("JWT"));
+builder.Services.Configure<OfficeDurationSettings>(builder.Configuration.GetSection("OfficeDuration"));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "_myAllowSpecificOrigins",
@@ -165,16 +167,6 @@ using (var scope = app.Services.CreateScope())
         () => syncService.SyncTablesAsync(),
         "*/5 * * * *"  // Cron expression for every 5 minutes
     );
-    //RecurringJob.AddOrUpdate(
-    //   "send-emails-job",
-    //   () => emailService.SendEmail(),
-    //   "0 0 * * 2-6"
-    //);
-    //RecurringJob.AddOrUpdate(
-    //   "send-notification-job",
-    //   () => notificationService.SendNotificationsAsync(),
-    //   "0 0 * * 2-6"
-    //);
     
     RecurringJob.AddOrUpdate(
      "send-weeklyemails-job",
