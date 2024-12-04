@@ -3,13 +3,13 @@ using System.Security.Claims;
 using System.Text;
 using FluentValidation;
 using Hangfire;
-using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
+using WolfDen.Application.Helper.LeaveManagement;
 using WolfDen.Application.Helpers;
 using WolfDen.Application.Requests.Commands.Attendence.Service;
 using System.Configuration;
@@ -19,6 +19,7 @@ using System.Text;
 using WolfDen.Application.Helpers;
 using WolfDen.Application.Requests.Queries.Attendence.DailyDetails;
 using WolfDen.Application.Requests.Queries.Attendence.MonthlyReport;
+using WolfDen.Application.Services;
 using WolfDen.Domain.ConfigurationModel;
 using WolfDen.Domain.Entity;
 using WolfDen.Infrastructure.Data;
@@ -106,6 +107,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddScoped<WolfDenContext>();
 builder.Services.AddSingleton<PdfService>();
 builder.Services.AddScoped<ManagerEmailFinder>();
+builder.Services.AddScoped<ManagerIdFinder>();
 builder.Services.AddScoped<MonthlyPdf>();
 builder.Services.AddScoped<Email>();
 builder.Services.AddSingleton<WeeklyPdfService>();
@@ -155,26 +157,37 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var syncService = scope.ServiceProvider.GetRequiredService<QueryBasedSyncService>();
-    var emailService = scope.ServiceProvider.GetRequiredService<DailyAttendancePollerService>();
     var weeklyService= scope.ServiceProvider.GetRequiredService<WeeklyAttendancePollerService>();
+    var combineService = scope.ServiceProvider.GetRequiredService<DailyAttendancePollerService>();
 
     RecurringJob.AddOrUpdate(
         "sync-tables-job",
         () => syncService.SyncTablesAsync(),
         "*/5 * * * *"  // Cron expression for every 5 minutes
     );
-    RecurringJob.AddOrUpdate(
-       "send-emails-job",
-       () => emailService.SendEmail(),
-       "0 0 * * 2-6"
-
-   );
+    //RecurringJob.AddOrUpdate(
+    //   "send-emails-job",
+    //   () => emailService.SendEmail(),
+    //   "0 0 * * 2-6"
+    //);
+    //RecurringJob.AddOrUpdate(
+    //   "send-notification-job",
+    //   () => notificationService.SendNotificationsAsync(),
+    //   "0 0 * * 2-6"
+    //);
+    
     RecurringJob.AddOrUpdate(
      "send-weeklyemails-job",
      () => weeklyService.WeeklyEmail(),
      "0 0 * * 6"
 
  );
+ RecurringJob.AddOrUpdate(
+    "send-attendance-notifications-job",
+    () => combineService.ExecuteJobAsync(),
+    "0 0 * * 2-6"
+    );
+
 }
 
 app.Run();

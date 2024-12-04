@@ -12,7 +12,6 @@ using WolfDen.Application.Helpers;
 using WolfDen.Domain.Entity;
 using WolfDen.Infrastructure.Data;
 
-
 namespace WolfDen.Application.Requests.Commands.Attendence.Email
 {
     public class SendEmailCommandHandler : IRequestHandler<SendEmailCommand, bool>
